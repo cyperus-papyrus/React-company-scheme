@@ -5,7 +5,7 @@ import avatar from './avatar_empty.jpg';
 
 
 const Modal = ({ isOpen, setIsOpen, man }) => {
-    const handleClose = useCallback(() => {setIsOpen(false);}, [setIsOpen]);
+    const handleClose = useCallback(() => { setIsOpen(false); }, [setIsOpen]);
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -49,20 +49,29 @@ const Employee = ({ employee, level = 0 }) => {
     const [isSubordinatesModalOpen, setIsSubordinatesModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCloseModal = useCallback(() => setIsModalOpen(false), [setIsModalOpen]); 
+    const handleCloseModal = useCallback(() => setIsModalOpen(false), [setIsModalOpen]);
     const handleCloseSubordinatesModal = useCallback(() => setIsSubordinatesModalOpen(false), [setIsSubordinatesModalOpen]);
+
+    const containerClass = isSubordinatesModalOpen ? "employee-container open" : "employee-container";
     return (
-        <div className="employee-container">
+        <div className={containerClass}>
             <div key={employee.id} className={"employee-item level-" + level}>
                 <div className="employee-inner" onClick={() => setIsModalOpen(true)}>
                     <div className="employee-posiiton">
-                        {employee.position ? `${employee.position}` : `${employee.name}`}
+                        {employee.position ? (
+                            <>
+                                <div>{employee.position}</div>
+                                <div className="employee-name-second">{employee.name}</div>
+                            </>
+                        ) : (
+                            <div>{employee.name}</div>
+                        )}
                     </div>
                 </div>
                 {employee.subordinates && (
                     <>
-                        <button className="rounded" onClick={() => setIsSubordinatesModalOpen(true)}>
-                            {isSubordinatesModalOpen ? "x" : "➜"}
+                        <button className={"rounded level-" + level} onClick={() => setIsSubordinatesModalOpen(true)}>
+                            ➜
                         </button>
                         {isSubordinatesOpen && (
                             <OrganizationSheme
@@ -114,9 +123,9 @@ const CEOList = ({ ceo }) => {
     return (
         <div className="ceo-container">
             {ceo.map((c) => (
-                <Ceo 
-                ceo={c}
-                key={c.id} />
+                <Ceo
+                    ceo={c}
+                    key={c.id} />
             ))}
         </div>
     );
@@ -130,17 +139,18 @@ const Ceo = ({ ceo }) => {
 
     return (
         <>
-            <div 
-                className="ceo-item" 
+            <div
+                className="ceo-item"
                 onClick={openModal}
             >
                 <span>{ceo.position}</span>
+                <span>{ceo.name}</span>
             </div>
             {isModalOpen && (
-                <Modal 
-                    isOpen={true} 
-                    setIsOpen={closeModal} 
-                    man={ceo} 
+                <Modal
+                    isOpen={true}
+                    setIsOpen={closeModal}
+                    man={ceo}
                 />
             )}
         </>
@@ -150,9 +160,9 @@ const Ceo = ({ ceo }) => {
 const OrganizationStructure = () => {
     return (
         <div>
-            <CEOList 
+            <CEOList
                 ceo={companyData.company.ceo}
-                />
+            />
             <OrganizationSheme
                 employees={companyData.company.employees}
                 level={0}

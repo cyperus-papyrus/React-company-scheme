@@ -21,6 +21,12 @@ button {
         &:hover {
             transform: scale(1.2);
         }
+        &.level-0 {
+            background-color: #1b8756;
+        }
+        &.level-1 {
+            background-color: #5a00a4;
+        }
     }
 
     &:hover {
@@ -29,8 +35,8 @@ button {
     }
     &.close {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 4px;
+        right: 4px;
         background-color: #990300;
     }
 }
@@ -57,25 +63,22 @@ button {
 
 .subordinates {
     &-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        gap: 0.5em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: .5em;
 
         &.level-0 {
             position: relative;
         }
     }
     &-modal {
-        position: absolute;
         background-color: #28282c;
-        padding: 1.5em;
+        padding: 1em;
         border-radius: 0.3em;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
+        flex: 1;
+        position: relative;
     }
 }
 
@@ -84,6 +87,12 @@ button {
         display: flex;
         align-items: stretch;
         justify-content: flex-start;
+        flex-direction: column;
+        min-width: 255px;
+        &.open {
+            width: 100%;
+            margin-top: 30px;
+        }
     }
     &-inner {
         display: flex;
@@ -114,6 +123,9 @@ button {
     &-posiiton {
         font-size: 1rem;
     }
+    &-name-second {
+        font-size: .8em;
+    }
 }
 
 .hide {
@@ -142,19 +154,24 @@ button {
 
 @media (min-width: 482px) {
     .subordinates{
-        &-container {
-            grid-template-columns: repeat(2, 1fr);
-        }
         &-modal {
-            padding: 1em;
+            padding: .5em;
+        }
+    }
+}
+@media (max-width: 481px) {
+    .subordinates{
+        &-modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
         }
     }
 }
 
 @media (min-width: 763px) {
-    .subordinates-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
     .ceo-item {
         padding: 1em;
     }
